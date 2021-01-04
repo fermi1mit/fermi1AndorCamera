@@ -1,0 +1,85 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =101     :rem starting number of the xperimental run
+nfinal =20000      :rem final number of the experimental run 
+
+rawImg = 20
+oldImg = 21
+
+create(#rawImg,"AllImages",1004,1002,4) 
+create(#oldImg,"OldImages",1004,1002,4) 
+for k = ni to nfinal
+
+run()
+   #oldImg {1} = #rawImg {1}
+   #oldImg {2} = #rawImg {2}
+   #oldImg {3} = #rawImg {3}
+   #oldImg {4} = #rawImg {4}
+   
+   #rawImg {1} = #0_sig{1}
+   #rawImg {2} = #0_sig{2}
+   #rawImg {3} = #0_sig{3}
+   #rawImg {4} = (#0_sig{1}-#0_sig{3})/(#0_sig{2}-#0_sig{3})
+//*********************************************************
+// Saving the images 
+//*********************************************************
+   
+// dir$ = "C:\Documents and Settings\Fermi1\My Documents\FermiData 2\2010\Nov\11-23-10\40K fluo cooling curve\"
+ dir$ = "C:\Users\FermiCam2\Documents\FermiData2\2017\05May\051517\Na count\"
+saveFileName$ = "Na count_" 
+ //   file$ = dir$ + saveFileName$ + ".sif"
+file1$ = dir$ + saveFileName$ + ".spe"
+//     print file$
+//     save(#20, file$)
+
+//save(#20, file1$)
+
+ x1Cor = 450
+ y1Cor = 450
+ x2Cor = 700
+ y2Cor = 750
+ totPix = 0
+xwidth =0
+ywidth =0
+xcenter=0
+ycenter=0   
+   
+//*********************************************************
+// Saving the images 
+//*********************************************************
+   
+//dir$ = "C:\Users\fermicam2\Documents\Fermidata2\2012\03Mar\03-27-12\NaKLifetimeWithODTcleaning\"
+//saveFileName$ = "NaK lifetime Na after TOF 7ms with ODTrampdown_0.1 run5_" + k
+//saveFileName$ = "Na test"
+ //   file$ = dir$ + saveFileName$ + ".sif"
+//file1$ = dir$ + saveFileName$ + ".spe"
+//     print file$
+//   save(#20, file$)
+
+//save(#20, file1$)
+
+
+//*********************************************************
+// NCount 
+//*********************************************************
+   
+
+//x1Cor = 170
+//x2Cor = 270
+
+//y1Cor = 400
+//y2Cor = 550
+
+//totPix = 0
+
+//for j = y1Cor to y2Cor
+//    for i = x1Cor to x2Cor
+//        totPix = totPix + #rawImg {4}[i,j]    
+//     next 
+// next
+
+// print(totPix-15140)
+
+next  

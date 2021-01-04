@@ -1,0 +1,68 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =101             :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+rawImg = 20
+oldImg = 21
+
+create(#rawImg,"AllImages",1024,1024,4) 
+create(#oldImg,"OldImages",1024,1024,4) 
+
+for k = ni to nfinal
+  run()
+   #oldImg {1} = #rawImg {1}
+   #oldImg {2} = #rawImg {2}
+   #oldImg {3} = #rawImg {3}
+   #oldImg {4} = #rawImg {4}
+   #rawImg {1} = #0_sig{1}
+   #rawImg {2} = #0_sig{2}
+   #rawImg {3} = #0_sig{3}
+   #rawImg {4} = (#0_sig{1}-#0_sig{3})/(#0_sig{2}-#0_sig{3})
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+   
+ dir$ = "C:\Documents and Settings\FermiCamera\My Documents\FermiData\2011\Mar\03-05-11\in\"
+saveFileName$ = "Na img freq scan_"+ k
+ //   file$ = dir$ + saveFileName$ + ".sif"
+file1$ = dir$ + saveFileName$ + ".spe"
+//     print file$
+//     save(#20, file$)
+
+//save(#20, file1$)
+
+x1Cor = 133	
+y1Cor = 333
+x2Cor = 893
+y2Cor = 892
+totPix = 0 
+N = 0
+
+for j = y1Cor to y2Cor
+	for i = x1Cor to x2Cor
+		if (#rawImg {4}[i,j]>0.01)then
+			totPix = totPix -ln(#rawImg {4}[i,j])
+               	endif
+	next
+next
+ 
+N = totPix * 93.68
+
+print("Run : " ; k ; "     N: " ;N)
+
+ 
+
+
+// for i = y1Cor to y2Cor
+//	for j = x1Cor to x2Cor
+//		totPix = totPix + #20 {4}[i,j]
+// 	next
+// next
+ 
+// print totPix
+
+next

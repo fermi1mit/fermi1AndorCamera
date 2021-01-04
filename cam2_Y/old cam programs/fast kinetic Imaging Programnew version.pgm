@@ -1,0 +1,36 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =100              :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+rawImg1  = 20
+rawImg2  = 21
+rawImg3  = 22
+
+create(#rawImg1,"Probe with atoms",1004,334,3) 
+create(#rawImg2,"Probe withought atoms",1004,334,3)
+create(#rawImg3,"Background Images",1004,334,3)
+ 
+for k = ni to nfinal
+
+  run()
+      
+   #rawImg1 {1} = #0_sig{1}
+   #rawImg1 {2} = #0_sig{2}
+   #rawImg1 {3} = #0_sig{3}
+
+  run()
+      
+   #rawImg2 {1} = #0_sig{1}
+   #rawImg2 {2} = #0_sig{2}
+   #rawImg2 {3} = #0_sig{3}
+
+  run()
+      
+   #rawImg3 {1} = #0_sig{1}
+   #rawImg3 {2} = #0_sig{2}
+   #rawImg3 {3} = #0_sig{3}
+   
+next  

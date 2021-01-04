@@ -1,0 +1,139 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =109       :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+//nimages = 300
+
+rawImg1  = 20
+rawImg2  = 21
+rawImg3  = 22
+Li6Img = 25
+NaImg = 26
+K40Img = 27
+
+oldLi6Img = 28
+
+//create(#NCount, nimages)
+
+create(#rawImg1,"Probe with atoms",1004,310,3) 
+create(#rawImg2,"Probe withought atoms",1004,310,3)
+create(#rawImg3,"Background Images",1004,310,3)
+create(#Li6Img,"Li6 Image",1004,310,4)
+create(#NaImg,"Na Image",1004,310,4)
+create(#K40Img,"K40 Image",1004,310,4)
+
+MinimizeWindow(#20)
+MinimizeWindow(#21)
+MinimizeWindow(#22)
+
+create(#oldLi6Img,"OldLiImg",1004,310,4) 
+for k = ni to nfinal
+
+//SetFastKinetics(expTime(in micro-sec, number, height, offset)
+
+#oldLi6Img {1} = #Li6Img {1}
+#oldLi6Img {2} = #Li6Img {2}
+#oldLi6Img {3} = #Li6Img {3}
+#oldLi6Img {4} = #Li6Img {4}
+
+
+
+  run()
+      
+   #rawImg1 {1} = #0_sig{1}
+   #rawImg1 {2} = #0_sig{2}
+   #rawImg1 {3} = #0_sig{3}
+
+  run()
+      
+   #rawImg2 {1} = #0_sig{1}
+   #rawImg2 {2} = #0_sig{2}
+   #rawImg2 {3} = #0_sig{3}
+   
+  run()
+      
+   #rawImg3 {1} = #0_sig{1}
+   #rawImg3 {2} = #0_sig{2}
+   #rawImg3 {3} = #0_sig{3}
+
+#Li6Img {1}=#rawImg1 {1}
+#Li6Img {2}=#rawImg2 {1}
+#Li6Img {3}=#rawImg3 {1}
+#Li6Img {4} = (#rawImg1 {1}-#rawImg3 {1})/(#rawImg2 {1}-#rawImg3 {1})
+
+#NaImg {1}=#rawImg1 {2}
+#NaImg {2}=#rawImg2 {2}
+#NaImg {3}=#rawImg3 {2}
+#NaImg {4} = (#rawImg1 {2}-#rawImg3 {2})/(#rawImg2 {2}-#rawImg3 {2})
+
+#K40Img {1}=#rawImg1 {3}
+#K40Img {2}=#rawImg2 {3}
+#K40Img {3}=#rawImg3 {3}
+#K40Img {4} = (#rawImg1 {3}-#rawImg3 {3})/(#rawImg2 {3}-#rawImg3 {3})
+
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+   
+dir1$ = "C:\Documents and Settings\Fermi1\My Documents\FermiData 2\2011\Jan\01-13-11\InputFolder\"
+dir2$ = "C:\Documents and Settings\Fermi1\My Documents\FermiData 2\2011\Jan\10-19-11\InputFolder\"
+dir3$ = "C:\Documents and Settings\Fermi1\My Documents\FermiData 2\2011\Jan\10-19-11\InputFolder\"
+saveFileName1$ = "Li6 image triply degenerate run1_"+ k
+saveFileName2$ = "Na without 40K spin mixture run1_"+ k
+saveFileName3$ = "K40 no spin mixture run1_"+ k
+//saveFileName2$ = "Na background_"+ k
+//saveFileName3$ = "K40 background_"+ k
+ //   file$ = dir$ + saveFileName$ + ".sif"
+file1$ = dir1$ + saveFileName1$ + ".spe"
+file2$ = dir2$ + saveFileName2$ + ".spe"
+file3$ = dir3$ + saveFileName3$ + ".spe"
+
+
+//save(#25, file1$)
+//save(#26, file2$)
+//save(#27, file3$)
+
+
+//
+// NCOUNT
+//
+ x1Cor = 466
+ y1Cor = 110
+ x2Cor = 676
+ y2Cor = 272
+ totPix = 0
+
+
+ //for j = y1Cor to y2Cor
+  //  for i = x1Cor to x2Cor
+  // if (#NaImg {4}[i,j]>0.005)then
+   //     totPix = totPix -ln(#27 {4}[i,j])
+ //         print #NaImg {4}[i,j]
+    // endif
+    // next
+ //    print #NaImg {4}[i,j]
+// next
+ 
+// print("Run : " ; k ; "     Ncount: " ;totPix)
+ //#NCount[k] = totPix
+ 
+ 
+//GraphNew()
+//GraphGrid(1)
+//GraphXLabel("Run")
+//GraphYLabel("NCount")
+//GraphFont("Times Roman")
+//GraphTextSize(30)
+//GraphLabel(xstart+20, ystart-30, "Example Graph")
+//GraphXAxis(99, 200)
+//GraphYAxis(5000, 15000)
+//GraphFrame(xstart, ystart, xend, yend)
+//GraphData(#NCount,1,2)
+
+
+
+next

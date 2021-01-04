@@ -1,0 +1,99 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =101        :rem starting number of the xperimental run
+nfinal =20000  :rem final number of the experimental run 
+
+
+
+
+rawImg = 20
+oldImg = 21
+divisor=22
+create(#rawImg,"AllImages",1004,1002,4) 
+create(#oldImg,"OldImages",1004,1002,4) 
+create(#divisor,"Divisor",1004,1002,1)
+for k = ni to nfinal
+
+//rowIndex and zeroFound are to address the divide by zero bug that causes Andor to crash
+rowIndex=1 
+zeroFound=0
+
+run()
+   #oldImg {1} = #rawImg {1}
+   #oldImg {2} = #rawImg {2}
+   #oldImg {3} = #rawImg {3}
+   #oldImg {4} = #rawImg {4}
+   
+   #rawImg {1} = #0_sig{1}
+   #rawImg {2} = #0_sig{2}
+   #rawImg {3} = #0_sig{3}     
+   #divisor{1} = abs(#0_sig{2}-#0_sig{3})       
+    
+    //Scan row by row, if the dark - bg images have any pixels exactly equal, then throws an error message and we can safely ignore this image
+    while(rowIndex<1003)
+   	 if(minval(#divisor{1}[1<<1004,rowIndex],1,1004)<1) then  
+    	
+    		zeroFound=1
+    		print("ZERO FOUND, IGNORE THIS IMAGE",minval(#divisor{1}[1<<1004,rowIndex],1,1004), minpos(#divisor{1}[1<<1004,rowIndex],1,1004))       
+   	
+   	endif
+    	
+    	rowIndex=rowIndex+1
+    wend    	
+    //print(zeroFound)
+    if(zeroFound==1) then
+    	#rawImg {4} = #0_sig{3}
+    	print("Don't crash 1")
+    else
+    	//print("Dont crash 2")
+   	#rawImg {4} = (#0_sig{1}-#0_sig{3})/(#0_sig{2}-#0_sig{3})     
+   endif 
+   //zeroFound=0
+   
+   
+   //#rawImg {4} = (#0_sig{1}-#0_sig{3})/(#0_sig{2}-#0_sig{3})
+   
+//*********************************************************
+// Saving the images 
+//*********************************************************
+//read("C:\Users\fermicam2\Dropbox\freq\freq.dat",freq$)
+//read("C:\Users\fermicam2\Dropbox\freq\tof.dat",tof$)     
+dir$ = "C:\Users\FermiCam2\Documents\FermiData2\2017\05May\051517\Na count\"
+//saveFileName$ = "test_" + freq$ + "_tof_" + tof$ + "_MHz"
+//saveFileName$ = "test_" + freq$ + "_MHz"
+
+
+saveFileName$ = "Na number" 
+//saveFileName$ = "Na BEC vs IPG power run1_"+k
+//  file$ = dir$ + saveFileName$ + ".sif"
+file1$ = dir$ + saveFileName$ + ".spe"
+//     print file$
+
+
+save(#20, file1$)
+//print ("test =" ; tof$)
+//print ("freq = " ; freq$)
+//*********************************************************
+// NCount 
+//*********************************************************
+   
+
+x1Cor = 170
+x2Cor = 270
+
+y1Cor = 400
+y2Cor = 550
+
+totPix = 0
+
+//for j = y1Cor to y2Cor
+//    for i = x1Cor to x2Cor
+//        totPix = totPix + #rawImg {4}[i,j]    
+//     next 
+// next
+
+// print(totPix-15140)
+
+next  

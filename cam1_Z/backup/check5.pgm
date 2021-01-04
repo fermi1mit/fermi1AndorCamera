@@ -1,0 +1,55 @@
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni =113             :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+rawImg = 20
+oldImg = 21
+
+create(#rawImg,"AllImages",1024,1024,4) 
+create(#oldImg,"OldImages",1024,1024,4) 
+
+for k = ni to nfinal
+  run()
+   #oldImg {1} = #rawImg {1}
+   #oldImg {2} = #rawImg {2}
+   #oldImg {3} = #rawImg {3}
+   #oldImg {4} = #rawImg {4}
+   #rawImg {1} = #0_sig{1}
+   #rawImg {2} = #0_sig{2}
+   #rawImg {3} = #0_sig{3}
+   #rawImg {4} = (#0_sig{1}-#0_sig{3})/(#0_sig{2}-#0_sig{3})
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+   
+ dir$ = "C:\Documents and Settings\FermiCamera\My Documents\FermiData\2010\Oct\10-11-10\InputFolder\"
+saveFileName$ = "Lifetime with FB run1_"+ k
+ //   file$ = dir$ + saveFileName$ + ".sif"
+file1$ = dir$ + saveFileName$ + ".spe"
+//     print file$
+//     save(#20, file$)
+
+//save(#20, file1$)
+
+  
+
+
+// x1Cor = 334
+// y1Cor = 425
+// x2Cor = 507
+// y2Cor = 561
+// totPix = 0 
+
+// for i = y1Cor to y2Cor
+//	for j = x1Cor to x2Cor
+//		totPix = totPix + #20 {4}[i,j]
+// 	next
+// next
+ 
+// print totPix
+
+next
