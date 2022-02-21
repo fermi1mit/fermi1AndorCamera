@@ -1,0 +1,113 @@
+
+
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni = 101  :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+
+rawImg1  = 20
+rawImg2  = 21
+rawImg3  = 22
+K40Img1 = 25
+
+
+create(#rawImg1,"dual image",1024,341,3) 
+
+create(#K40Img1,"K40 Image1",1024,341,4)
+
+//MinimizeWindow(#20)
+//MinimizeWindow(#21)
+//MinimizeWindow(#22)
+
+
+for k = ni to nfinal
+
+//SetFastKinetics(expTime(in micro-sec, number, height, offset)
+
+
+  run()
+      // in order, with atoms, no atoms, background 
+   #rawImg1 {1} = #0_sig{1}
+   #rawImg1 {2} = #0_sig{2}
+   #rawImg1 {3} = #0_sig{3}
+
+
+#K40Img1 {1}=#rawImg1 {1}
+#K40Img1 {2}=#rawImg1 {2}
+#K40Img1 {3}=#rawImg1 {3}
+#K40Img1 {4} = (#rawImg1 {1}-#rawImg1 {3})/(#rawImg1 {2}-#rawImg1 {3})
+
+
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+
+dir1$ = "D:\Fermidata1\2020\010920\faraday\"
+//dir2$ = "D:\Fermidata1\2018\12Dec\121719\ejection\"
+//dir3$ = "D:\Fermidata1\2018\12Dec\111918\ejection\done\"
+
+testImages = 1
+
+runIdx$ = "1"
+commonName$ = "dispersion relation faraday wave 80p2G"
+
+if (testImages == 0) then
+	saveFileName1$ = "dual " + "run_" + runIdx$ +"_" + commonName$ + "_" + k
+	//saveFileName2$ = "K2 m9half_" + commonName$ + " run_" + runIdx$ +"_"+k
+	//saveFileName3$ = "Na BEC_" + commonName$ + " run_" + runIdx$ +"_"+k
+else
+	saveFileName1$ = "K1 m7half_test" 
+	//saveFileName2$ = "K2 m9half_test" 
+	//saveFileName3$ = "Na BEC_test"
+endif 
+
+file1$ = dir1$ + saveFileName1$ + ".spe"
+//file2$ = dir2$ + saveFileName2$ + ".spe"
+//file3$ = dir3$ + saveFileName3$ + ".spe"
+
+save(#25, file1$)
+//save(#26, file2$)
+//save(#27, file3$)
+
+
+//
+// NCOUNT
+//
+ x1Cor = 466
+ y1Cor = 110
+ x2Cor = 676
+ y2Cor = 272
+ totPix = 0
+
+
+ //for j = y1Cor to y2Cor
+  //  for i = x1Cor to x2Cor
+  // if (#K41Img {4}[i,j]>0.005)then
+   //     totPix = totPix -ln(#27 {4}[i,j])
+ //         print #K41Img {4}[i,j]
+    // endif
+    // next
+ //    print #K41Img {4}[i,j]
+// next
+ 
+// print("Run : " ; k ; "     Ncount: " ;totPix)
+ //#NCount[k] = totPix
+ 
+ 
+//GraphNew()
+//GraphGrid(1)
+//GraphXLabel("Run")
+//GraphYLabel("NCount")
+//GraphFont("Times Roman")
+//GraphTextSize(30)
+//GraphLabel(xstart+20, ystart-30, "Example Graph")
+//GraphXAxis(99, 200)
+//GraphYAxis(5000, 15000)
+//GraphFrame(xstart, ystart, xend, yend)
+//GraphData(#NCount,1,2)
+
+next

@@ -26,14 +26,13 @@ for k = ni to nfinal
 // Saving the images 
 //*********************************************************
    
- dir$ = "C:\Documents and Settings\FermiCamera\My Documents\FermiData\2011\Mar\03-29-11\in\"
-saveFileName$ = "K40 evap1 lifetime_with Na_small plug_run2_"+ k
- //   file$ = dir$ + saveFileName$ + ".sif"
+ dir$ = "D:\Fermidata1\2016\03Mar\031516\thermalization\"
+saveFileName$ = "K m9half test" 
 file1$ = dir$ + saveFileName$ + ".spe"
 //     print file$
 //     save(#20, file$)
 
-save(#20, file1$)
+save(#25, file1$)
 
 //x1Cor = 280
 //y1Cor = 380

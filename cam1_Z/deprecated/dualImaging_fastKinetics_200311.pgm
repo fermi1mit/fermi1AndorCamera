@@ -1,0 +1,67 @@
+
+//SetFastKinetics(expTime(in micro-sec, number, height, offset)
+
+
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni 		= 1001  :rem starting number of the xperimental run
+nfinal 	= 99999  :rem final number of the experimental run 
+
+
+rawImg1  	= 20
+rawImg2  	= 21
+rawImg3  	= 22
+K40Img1 	= 25
+
+
+
+create(#rawImg1,"dual image",1024,341,4) 
+create(#K40Img1,"K40 Image1",1024,341,4)
+
+
+for k = ni to nfinal
+
+  	run()
+   	// in order, with atoms, no atoms, background 
+   	#rawImg1 {1} = #0_sig{1}
+   	#rawImg1 {2} = #0_sig{2}
+   	#rawImg1 {3} = #0_sig{3}
+   	#rawImg1 {4} = (#rawImg1 {1}-#rawImg1 {3})/(#rawImg1 {2}-#rawImg1 {3})
+
+
+	#K40Img1 {1}=#rawImg1 {1}
+	#K40Img1 {2}=#rawImg1 {2}
+	#K40Img1 {3}=#rawImg1 {3}
+	#K40Img1 {4} = (#rawImg1 {1}-#rawImg1 {3})/(#rawImg1 {2}-#rawImg1 {3})
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+
+	dir1$ = "D:\Fermidata1\2020\Mar\200317\"
+	//dir2$ = "D:\Fermidata1\2018\12Dec\121719\ejection\"
+	//dir3$ = "D:\Fermidata1\2018\12Dec\111918\ejection\done\"
+
+	testImages = 1
+
+	runIdx$ = "24b"
+	commonName$ = "PA vs field with 50us"
+
+	if (testImages == 0) then
+		saveFileName1$ = "dual " + "run_" + runIdx$ +"_" + commonName$ + "_" + k
+		//saveFileName2$ = "same image"
+	else
+		saveFileName1$ = "dual_test" 
+		//saveFileName2$ = "same image" 
+	endif 
+
+	file1$ = dir1$ + saveFileName1$ + ".spe"
+	//file2$ = dir1$ + saveFileName2$ + ".spe"
+
+	save(#25, file1$)
+	//save(#25, file2$)
+
+
+next
