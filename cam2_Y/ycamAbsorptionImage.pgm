@@ -35,7 +35,7 @@ run()
 //read("C:\Users\fermicam2\Dropbox\freq\freq.dat",freq$)
 //read("C:\Users\fermicam2\Dropbox\freq\tof.dat",tof$)     
 //dir$ = "C:\Users\FermiCam2\Documents\FermiData2\2020\Dec\"
-dir$ = "C:\Users\FermiCam2\Desktop\GitHub\enrico\images\"
+dir$ = "C:\Users\Fermi1-YCAM\Documents\Github\enrico\images\"
 //saveFileName$ = "test_" + freq$ + "_tof_" + tof$ + "_MHz"
 //saveFileName$ = "test_" + freq$ + "_MHz"
 
