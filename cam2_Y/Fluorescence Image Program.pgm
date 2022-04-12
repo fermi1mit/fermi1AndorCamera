@@ -26,7 +26,7 @@ for k = ni to nfinal
 // Saving the images 
 //*********************************************************
    
- dir$ = "C:\Users\FermiCam2\Documents\FermiData2\2019\02Feb\190326\"
+dir$ = "C:\Users\Fermi1-YCAM\Documents\Github\enrico\images\"
 saveFileName$ = "40K fluo run_"
 
 file1$ = dir$ + saveFileName$ + ".spe"
