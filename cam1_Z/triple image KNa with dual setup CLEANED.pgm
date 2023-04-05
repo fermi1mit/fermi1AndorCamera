@@ -1,0 +1,99 @@
+// Display absorption images from triple imaging, in order of exposure in windows 25, 26, 27, and save them under "saveFilename{i}.spe" for i-th exposure.
+
+// manually modify filenames, since species and spin states are not always imaged in the same order in triple imaging.
+saveFileName1$ = "Na_test"  
+saveFileName2$ = "K1_test"
+saveFileName3$ = "K2_test"
+
+//******************************************************
+// ni and nfinal are int to facilitate saving of the data
+//******************************************************
+
+ni = 101  :rem starting number of the xperimental run
+nfinal =20000        :rem final number of the experimental run 
+
+
+rawImg1  = 20
+rawImg2  = 21
+rawImg3  = 22
+
+// the following numbers will facilitate which image appears in which GUI window and the filenames for saving to disk.
+// We frequently change the order of imaging species/spin states.
+exposure1 = 25
+exposure2 = 26
+exposure3 = 27
+
+create(#rawImg1,"Probe with atoms",1024,341,3) 
+create(#rawImg2,"Probe without atoms",1024,341,3)
+create(#rawImg3,"Background Images",1024,341,3)
+create(#exposure1 ,"exposure1",1024,341,4) 
+create(#exposure2 ,"exposure2",1024,341,4)
+create(#exposure3 ,"exposure3",1024,341,4)
+
+MinimizeWindow(#20)
+MinimizeWindow(#21)
+MinimizeWindow(#22)
+
+
+for k = ni to nfinal
+
+
+
+  run()
+      
+   #rawImg1 {1} = #0_sig{1}
+   #rawImg1 {2} = #0_sig{2}
+   #rawImg1 {3} = #0_sig{3}
+ 
+
+  run()
+      
+   #rawImg2 {1} = #0_sig{1}
+   #rawImg2 {2} = #0_sig{2}
+   #rawImg2 {3} = #0_sig{3}
+
+   
+  run()
+      
+   #rawImg3 {1} = #0_sig{1}
+   #rawImg3 {2} = #0_sig{2}
+   #rawImg3 {3} = #0_sig{3}
+
+
+#exposure1 {1}=#rawImg1 {1}
+#exposure1 {2}=#rawImg2 {1}
+#exposure1 {3}=#rawImg3 {1}
+#exposure1 {4} = (#rawImg1 {1}-#rawImg3 {1})/(#rawImg2 {1}-#rawImg3 {1})
+
+#exposure2 {1}=#rawImg1 {2}
+#exposure2 {2}=#rawImg2 {2}
+#exposure2 {3}=#rawImg3 {2}
+#exposure2 {4} = (#rawImg1 {2}-#rawImg3 {2})/(#rawImg2 {2}-#rawImg3 {2})
+
+#exposure3 {1}=#rawImg1 {3}
+#exposure3 {2}=#rawImg2 {3}
+#exposure3 {3}=#rawImg3 {3}
+#exposure3 {4} = (#rawImg1 {3}-#rawImg3 {3})/(#rawImg2 {3}-#rawImg3 {3})
+
+
+//*********************************************************
+// Saving the images 
+//*********************************************************
+
+dir1$ = "C:\Users\ZCAM-Fermi1\Documents\GitHub\enrico\images\"
+dir2$ = "C:\Users\ZCAM-Fermi1\Documents\GitHub\enrico\images\"
+dir3$ = "C:\Users\ZCAM-Fermi1\Documents\GitHub\enrico\images\"
+
+saveFileName1$ = "Na_test"  
+saveFileName2$ = "K1_test"
+saveFileName3$ = "K2_test"
+
+file1$ = dir1$ + saveFileName1$ + ".spe"
+file2$ = dir2$ + saveFileName2$ + ".spe"
+file3$ = dir3$ + saveFileName3$ + ".spe"
+
+save(#25, file1$)
+save(#26, file2$)
+save(#27, file3$) 
+
+next
